@@ -13,7 +13,8 @@
     "clean": "tsc -b tsconfig.json --clean",
     "lint": "eslint 'src/*.{js,ts,tsx}' --max-warnings=0",
     "doc": "typedoc",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepare": "build"
   },
   "files": [
     "build",
