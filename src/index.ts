@@ -11,6 +11,7 @@ export enum ChipFamily {
   ESP32 = "esp32",
   ESP8266 = "esp8266",
   ESP32S2 = "esp32S2",
+  ESP32C3 = "esp32C3"
 }
 
 const FLASH_WRITE_SIZE = 0x400;
@@ -27,6 +28,7 @@ const CHIP_DETECT_MAGIC_REG_ADDR = 0x40001000;
 const ESP32_DETECT_MAGIC_VALUE = 0x00f01d83;
 const ESP8266_DETECT_MAGIC_VALUE = 0xfff0c101;
 const ESP32S2_DETECT_MAGIC_VALUE = 0x000007c6;
+const ESP32C3_DETECT_MAGIC_VALUE = [0x6921506F, 0x1B31506F];
 
 const UART_CLKDIV_REG = 0x3ff40014;
 const UART_CLKDIV_MASK = 0xfffff;
@@ -300,6 +302,8 @@ export class EspLoader {
         this._chipfamily = ChipFamily.ESP8266;
       } else if (datareg == ESP32S2_DETECT_MAGIC_VALUE) {
         this._chipfamily = ChipFamily.ESP32S2;
+      } else if (ESP32C3_DETECT_MAGIC_VALUE.includes(datareg)) {
+        this._chipfamily = ChipFamily.ESP32C3;
       } else {
         throw UnknownChipFamilyError;
       }
@@ -325,6 +329,9 @@ export class EspLoader {
         return "ESP8285";
       }
       return "ESP8266EX";
+    }
+    if (chipFamily == ChipFamily.ESP32C3) {
+      return "ESP32C3";
     }
     throw UnknownChipFamilyError;
   }
